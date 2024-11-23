@@ -1,4 +1,4 @@
-#include <cstdlib> 
+#include <cstdlib>
 #include <iostream>
 #include <semaphore.h>
 #include <string>
@@ -6,21 +6,21 @@
 
 using namespace std;
 
-//Semáforos que serão usados para sincronização
+// Semáforos que seraõ usados na sincronização
 sem_t player1_ready;
 sem_t player2_ready;
-sem_t choices_done; //Semáforo para garantir que ambos os jogadores escolheram
+sem_t choices_done; // semafaro que ambos os jogadores escolheram
 
-//Escolhas dos jogadores
+// Escolhas dos jogadores
 string player1_choice;
 string player2_choice;
 
-//Função que valida as escolhas para garantir que nada que não seja o esperado passe
+// Valida as escolhas para garantir que nada não esperado passe
 bool is_valid_choice(const string &choice) {
   return (choice == "Pedra" || choice == "Papel" || choice == "Tesoura");
 }
 
-//Regras para achar o vencedor
+// Determina o vencedor com base nas regras dojogo
 string determine_winner(const string &p1, const string &p2) {
   if (p1 == p2) {
     return "Empate!";
@@ -33,12 +33,10 @@ string determine_winner(const string &p1, const string &p2) {
   }
 }
 
-//Função para limpar a tela (Linux)
-void clear_screen() {
-  (void)system("clear"); // Ignora o valor de retorno de system
-}
+// Limpa a tela (Linux)
+void clear_screen() { (void)system("clear"); }
 
-//Vez do jogador 1 jogar
+// Vez do jogador 1 jogar
 void player1() {
   while (true) {
     sem_wait(&player1_ready); // Espera sua vez
@@ -49,7 +47,7 @@ void player1() {
       cin >> player1_choice;
 
       if (player1_choice == "Sair") {
-        sem_post(&player2_ready); // Libera o jogador 2 para finalizar também
+        sem_post(&player2_ready); // Libera o jogador 2 para finalizar
         return;
       }
 
@@ -58,15 +56,16 @@ void player1() {
       }
     } while (!is_valid_choice(player1_choice));
 
-    //Após a escolha, libere o jogador 2 para jogar
-    sem_post(&player2_ready);
+    // Limpa a tela após a escolha, para que o jogador 2 não veja o que foi
+    // escolhido
+    clear_screen();
 
-    //Espera o jogador 2 fazer sua escolha
-    sem_wait(&choices_done);
+    // Libera o jogador 2 para jogar
+    sem_post(&player2_ready);
   }
 }
 
-//Vez do jogador 2 jogar
+// Vez do jogador 2 jogar
 void player2() {
   while (true) {
     sem_wait(&player2_ready); // Espera sua vez
@@ -85,39 +84,50 @@ void player2() {
       }
     } while (!is_valid_choice(player2_choice));
 
-    // Agora que ambos os jogadores fizeram a escolha, mostra o resultado
+    // Mostra o resultado da rodada
     string winner = determine_winner(player1_choice, player2_choice);
     cout << "\nResultado:\n"
          << "Jogador 1 escolheu: " << player1_choice << "\n"
          << "Jogador 2 escolheu: " << player2_choice << "\n"
          << winner << endl;
 
-    cout << "\nPressione Enter para começar outra rodada.\n";
-    cin.ignore(); 
-    cin.get();    // Aguarda o Enter do jogador
-
-    // Limpa a tela para que as escolhas não apareçam na próxima rodada
-    clear_screen();
-
-    // Libera o jogador 1 para a próxima rodada
+    // Libera o fluxo de volta para o jogador 1
     sem_post(&choices_done);
   }
 }
 
-int main() {
-  cout << "Jogo de Pedra, Papel e Tesoura\n";
-  cout << "Digite 'Sair' a qualquer momento para encerrar o jogo.\n\n";
+void game_loop() {
+  while (true) {
+    cout << "Jogo de Pedra, Papel e Tesoura\n";
+    cout << "Digite 'Sair' a qualquer momento para encerrar o jogo.\n\n";
 
+    // Inicializa os semáforos para a rodada
+    sem_post(&player1_ready); // Libera jogador 1 para começar
+    sem_wait(&choices_done);  // Aguarda a rodada finalizar
+
+    cout << "\nPressione Enter para começar outra rodada.\n";
+    cin.ignore();
+    cin.get(); // Aguarda o Enter do jogador para começar tudo novamente
+
+    // Limpa a tela para reiniciar o jogo
+    clear_screen();
+  }
+}
+
+int main() {
   // Inicializa os semáforos
-  sem_init(&player1_ready, 0, 1); // Jogador 1 começa
+  sem_init(&player1_ready, 0, 0); // Jogador 1 espera inicialmente
   sem_init(&player2_ready, 0, 0); // Jogador 2 espera
-  sem_init(&choices_done, 0, 0); // Semáforo para garantir que ambos escolheram
+  sem_init(&choices_done, 0, 0);  // Garantir que ambos escolheram
 
   // Cria as threads dos jogadores
   thread t1(player1);
   thread t2(player2);
 
-  // Aguarda as threads (serão finalizadas quando um jogador escolher "Sair")
+  // Inicia o loop do jogo
+  game_loop();
+
+  // Aguarda as threads (finalizam quando um jogador escolhe "Sair")
   t1.join();
   t2.join();
 

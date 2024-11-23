@@ -1,64 +1,88 @@
-##################################################################################
-Jogo de Pedra, Papel e Tesoura Multiplayer usando Threads e Semáforos
-##################################################################################
-
-Este é um jogo simples de Pedra, Papel e Tesoura multiplayer, onde dois jogadores fazem suas escolhas alternadamente. O jogo é implementado utilizando Threads e Semáforos para controlar a sincronização e alternância de ações entre os jogadores.
-Ele foi desenvolvido usando C++
-
 #############################################
+MANUAL DO JOGO PEDRA PAPEL TESOURA! 
+#############################################
+
 Requisitos:
+
 Sistema operacional: Linux
-Compilador C++: GCC, ou Visual Studio
+Compilador C++: GCC (recomendado)
 Bibliotecas: iostream, semaphore.h, thread, string
 
 #############################################
+
 Funcionamento:
-O jogo é composto por duas threads, uma para cada jogador (Jogador 1 e Jogador 2). As threads alternam entre si, usando Semáforos para garantir que cada jogador faça sua escolha de forma síncrona, impedindo que o Jogador 2 veja a escolha do Jogador 1 antes da vez dele.
+
+O jogo é composto por duas threads, representando os jogadores (Jogador 1 e Jogador 2), e utiliza semáforos para garantir que as jogadas aconteçam de forma sincronizada e ordenada.
 
 Regras do Jogo:
-Jogador 1 e Jogador 2 devem escolher entre "Pedra", "Papel" ou "Tesoura".
-O vencedor é determinado pelas regras tradicionais do jogo:
-Pedra vence Tesoura
-Tesoura vence Papel
-Papel vence Pedra
-O jogo termina quando qualquer jogador digitar "Sair".
-Após cada rodada, os jogadores podem começar uma nova rodada ao pressionar "Enter".
-Qualquer coisas fora as palavras chaves é pedido que começe novamente a jogada.
+Cada jogador deve escolher entre as opções: Pedra, Papel ou Tesoura.
+O vencedor é determinado pelas regras tradicionais:
+Pedra vence Tesoura.
+Tesoura vence Papel.
+Papel vence Pedra.
+O jogo termina se qualquer jogador digitar "Sair".
+Caso a entrada seja inválida, o jogador será solicitado a escolher novamente.
+
+#####################################################
+Estrutura do Jogo:
+
+Semáforos:
+Os semáforos garantem a sincronização entre os jogadores, controlando quem pode fazer sua jogada em cada momento:
+
+player1_ready:
+
+Inicia com valor 1 (liberado), permitindo que o Jogador 1 jogue primeiro.
+Após o Jogador 1 fazer sua escolha, bloqueia sua thread e libera o Jogador 2.
+player2_ready:
+
+Inicia com valor 0 (bloqueado), forçando o Jogador 2 a esperar pela jogada do Jogador 1.
+Após o Jogador 2 fazer sua escolha, bloqueia sua thread e inicia o cálculo do vencedor.
+choices_done:
+
+Sincroniza o cálculo do vencedor e prepara a próxima rodada após ambos os jogadores realizarem suas jogadas.
+Threads:
+Cada jogador é representado por uma thread, que captura a entrada e valida a jogada:
+
+Thread do Jogador 1 (player1): Captura e valida a escolha do Jogador 1, passando o controle para o Jogador 2.
+Thread do Jogador 2 (player2): Captura e valida a escolha do Jogador 2, liberando o fluxo para calcular o vencedor.
+####################################################
+Funções principais:
+
+is_valid_choice(): Valida se a escolha do jogador é uma das opções permitidas: Pedra, Papel, Tesoura ou Sair.
+determine_winner(): Determina o vencedor da rodada com base nas escolhas.
+clear_screen(): Limpa o terminal para ocultar as escolhas dos jogadores.
+game_loop(): Controla o fluxo principal do jogo e reinicia as rodadas até que alguém digite "Sair".
 
 #####################################################
 
-Estrutura do Jogo:
+Controle de Rodadas:
 
-1. Semáforos:
-   Os semáforos são usados para sincronizar a alternância entre as escolhas dos jogadores. O Jogador 1 começa a rodada, e o Jogador 2 espera até que o Jogador 1 faça sua escolha.
-
-Semáforo player1_ready: Inicialmente no valor 1, permitindo que o Jogador 1 faça sua escolha primeiro. Após sua escolha, o semáforo é liberado para que o Jogador 2 faça sua escolha.
-Semáforo player2_ready: Inicialmente no valor 0, fazendo com que o Jogador 2 aguarde a vez do Jogador 1. Após o Jogador 2 fazer sua escolha, o semáforo do Jogador 1 é liberado para a próxima rodada.
-
-2. Threads:
-   O jogo utiliza duas threads para que as escolhas dos jogadores sejam feitas simultaneamente, com cada thread representando um jogador. Isso permite que o programa seja interativo, aguardando a entrada de cada jogador e processando as escolhas em tempo real.
-
-Thread player1: Responsável por capturar a escolha do Jogador 1, validar e aguardar a liberação do Jogador 2.
-Thread player2: Responsável por capturar a escolha do Jogador 2, validar e aguardar a liberação do Jogador 1.
-
-3. Funções principais:
-   is_valid_choice(): Função que valida se a escolha do jogador é uma das opções válidas ("Pedra", "Papel", "Tesoura").
-   determine_winner(): Função que determina o vencedor da rodada com base nas escolhas dos jogadores.
-
-Threads para Jogadores: A criação de threads foi feita usando a biblioteca std::thread. Cada jogador foi alocado a uma thread, permitindo que ambos possam fazer suas escolhas simultaneamente. O fluxo de jogo depende da sincronização das threads por meio dos semáforos.
-
-Controle de Rodadas: Após cada rodada, os jogadores são liberados para começar uma nova rodada, permitindo que o jogo continue até que o comando "Sair" seja dado por qualquer jogador.
+Após cada rodada, os jogadores são liberados para iniciar uma nova jogada pressionando Enter.
+O fluxo do jogo retorna automaticamente ao início, garantindo a continuidade até que "Sair" seja digitado.
 
 ###################################################################################
 COMO COMPILAR E RODAR?
-obs: primeiro de tudo, você tem que tero gcc instalado no seu sistema.Depois disso vamos aos passos.
-1-intalar o repositório na sua máquina com
-git clone link
 
-2-abrir no seu temrinal
+Certifique-se de que o GCC está instalado no seu sistema.
 
-3-compilar o jogo com: g++ -std=c++11 main.cpp -o jogo -pthread
+Clone o repositório do jogo com: git clone https://github.com/KatielyLacerda/Jogo-de-Sistemas-Operacionais.git  
 
-4-exec o jogo: ./jogo
+Entre no diretório do jogo: cd jogo-de-Sistemas-Operacionais
 
-5.agora é só jogar.
+Compile o código: g++ -std=c++11 main.cpp -o jogo -pthread  
+
+Execute o jogo: ./jogo
+
+###################################
+AGORA É SÓ JOGAR!
+###################################
+
+###################################################################################
+Resumo:
+
+Os semáforos foram usados para evitar condições de corrida, garantindo que as escolhas dos jogadores sejam feitas em ordem.
+As threads permitem capturar entradas simultâneas, com cada jogador jogando em sua própria thread de forma sincronizada.
+
+
+
+OBSERVAÇÃO IMPORTANTE: Se você não tivero gcc intalado na sua máquina pode baixar o repositório normalmente, criar um arquivo .cpp no Replit 'https://replit.com/' (Compilador online, que é só entrar com sua conta do google), e colar o código do main.cpp do respsirório no arquivo .cpp criado nele. Feito isso é só clicar em run que ele compila e executa automático. 
