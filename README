@@ -61,7 +61,7 @@ Após cada rodada, os jogadores são liberados para iniciar uma nova jogada pres
 O fluxo do jogo retorna automaticamente ao início, garantindo a continuidade até que "Sair" seja digitado.
 
 ###################################################################################
-COMO COMPILAR E RODAR?
+COMO COMPILAR E RODAR? 
 
 Certifique-se de que o GCC está instalado no seu sistema.
 
@@ -69,7 +69,15 @@ Clone o repositório do jogo com: git clone https://github.com/KatielyLacerda/Jo
 
 Entre no diretório do jogo: cd jogo-de-Sistemas-Operacionais
 
-Compile o código: g++ -std=c++11 main.cpp -o jogo -pthread  
+Compile o código: g++ -std=c++11 main.cpp -o jogo -pthread 
+
+Execute o jogo: ./jogo
+
+JOGAR NO WINDOWS:
+
+Certifique-se que seu gcc suporta threads... guia de instalação do MinGW-w64: https://code.visualstudio.com/docs/cpp/config-mingw
+
+compile o código g++ -std=c++11 main_windows.cpp -o jogo -pthread 
 
 Execute o jogo: ./jogo
 
