@@ -4,7 +4,7 @@ MANUAL DO JOGO PEDRA PAPEL TESOURA!
 
 Requisitos:
 
-Sistema operacional: Linux
+Sistema operacional: Linux, um terminal que suporte ANSI escape codes
 Compilador C++: GCC (recomendado)
 Bibliotecas: iostream, semaphore.h, thread, string
 
@@ -27,24 +27,25 @@ Caso a entrada seja inválida, o jogador será solicitado a escolher novamente.
 Estrutura do Jogo:
 
 Semáforos:
-Os semáforos garantem a sincronização entre os jogadores, controlando quem pode fazer sua jogada em cada momento:
+São usados para controlar a sincronização entre as threads dos jogadores, garantindo que as jogadas sejam feitas na ordem correta. Os semáforos usados são:
 
 player1_ready:
-
 Inicia com valor 1 (liberado), permitindo que o Jogador 1 jogue primeiro.
-Após o Jogador 1 fazer sua escolha, bloqueia sua thread e libera o Jogador 2.
+Após a escolha do Jogador 1, ele bloqueia sua thread e libera o Jogador 2 para fazer a jogada.
 player2_ready:
-
-Inicia com valor 0 (bloqueado), forçando o Jogador 2 a esperar pela jogada do Jogador 1.
-Após o Jogador 2 fazer sua escolha, bloqueia sua thread e inicia o cálculo do vencedor.
+Inicia com valor 0 (bloqueado), forçando o Jogador 2 a esperar até que o Jogador 1 faça sua escolha.
+Após a escolha do Jogador 2, ele bloqueia sua thread e a thread do Jogador 1 pode ser liberada para uma nova rodada.
 choices_done:
+Usado para sincronizar o cálculo do vencedor e preparar a próxima rodada. Esse semáforo garante que ambos os jogadores façam suas jogadas antes de determinar o vencedor.
 
-Sincroniza o cálculo do vencedor e prepara a próxima rodada após ambos os jogadores realizarem suas jogadas.
 Threads:
-Cada jogador é representado por uma thread, que captura a entrada e valida a jogada:
+Thread do Jogador 1 (player1):
+Captura e valida a escolha do Jogador 1.
+Após sua jogada, a thread do Jogador 1 é bloqueada até que o Jogador 2 faça sua jogada.
+Thread do Jogador 2 (player2):
+Captura e valida a escolha do Jogador 2.
+Após sua jogada, libera o fluxo para calcular o vencedor.
 
-Thread do Jogador 1 (player1): Captura e valida a escolha do Jogador 1, passando o controle para o Jogador 2.
-Thread do Jogador 2 (player2): Captura e valida a escolha do Jogador 2, liberando o fluxo para calcular o vencedor.
 ####################################################
 Funções principais:
 
@@ -59,6 +60,7 @@ Controle de Rodadas:
 
 Após cada rodada, os jogadores são liberados para iniciar uma nova jogada pressionando Enter.
 O fluxo do jogo retorna automaticamente ao início, garantindo a continuidade até que "Sair" seja digitado.
+As escolhas dos jogadores são sincronizadas com os semáforos, garantindo que ambas as jogadas ocorram em ordem e sem conflitos.
 
 ###################################################################################
 COMO COMPILAR E RODAR? 
@@ -88,9 +90,8 @@ AGORA É SÓ JOGAR!
 ###################################################################################
 Resumo:
 
-Os semáforos foram usados para evitar condições de corrida, garantindo que as escolhas dos jogadores sejam feitas em ordem.
-As threads permitem capturar entradas simultâneas, com cada jogador jogando em sua própria thread de forma sincronizada.
+Os Semáforos foram usados para sincronizar as jogadas, evitando que os jogadores façam escolhas simultâneas e garantindo que as threads dos jogadores sejam coordenadas.
 
-
+Threads permitem que as jogadas dos dois jogadores ocorram em paralelo, mas de forma sincronizada, respeitando a ordem correta do jogo.
 
 OBSERVAÇÃO IMPORTANTE: Se você não tivero gcc intalado na sua máquina pode baixar o repositório normalmente, criar um arquivo .cpp no Replit 'https://replit.com/' (Compilador online, que é só entrar com sua conta do google), e colar o código do main.cpp do respsirório no arquivo .cpp criado nele. Feito isso é só clicar em run que ele compila e executa automático. 
