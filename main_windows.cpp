@@ -66,7 +66,7 @@ void player1() {
 
         do {
             set_color(DARK_BLUE);
-            cout << "Jogador 1: Faça sua escolha (Pedra - Papel - Tesoura ou 'Sair'): ";
+            cout << "Jogador 1: Faca sua escolha (Pedra - Papel - Tesoura ou 'Sair'): ";
             set_color(RESET);
             cin >> player1_choice;
 
@@ -108,7 +108,7 @@ void player2() {
         cout << "Digite 'Sair' a qualquer momento para encerrar o jogo.\n\n";
         set_color(RESET);
         set_color(DARK_BLUE);
-        cout << "Jogador 2: Faça sua escolha (Pedra - Papel - Tesoura ou 'Sair'): ";
+        cout << "Jogador 2: Faca sua escolha (Pedra - Papel - Tesoura ou 'Sair'): ";
         set_color(RESET);
 
         do {
@@ -118,7 +118,7 @@ void player2() {
                 set_color(RED);
                 cout << "Jogador 2 escolheu encerrar o jogo." << endl;
                 set_color(RESET);
-                return;
+                exit(0);
             }
 
             if (!is_valid_choice(player2_choice)) {
@@ -184,11 +184,11 @@ void game_loop() {
 
 
         // Inicializa os semáforos para a rodada
-        ReleaseSemaphore(player1_ready, 1, NULL); // Libera jogador 1 para começar
+        ReleaseSemaphore(player1_ready, 1, NULL); // Libera jogador 1 para comecar
         WaitForSingleObject(choices_done, INFINITE); // Aguarda a rodada finalizar
 
         
-        cout << "\nPressione Enter para começar outra rodada.\n";
+        cout << "\nPressione Enter para comecar outra rodada.\n";
 
         cin.ignore();
         cin.get(); // Aguarda o Enter do jogador para começar tudo novamente
