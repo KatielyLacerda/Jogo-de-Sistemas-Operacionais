@@ -8,7 +8,7 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "c:/Users/katie/OneDrive/Área de Trabalho/TrabalhoSistemasOperacionais",
+      "cwd": "c/katie/OneDrive/Área de Trabalho/TrabalhoSistemasOperacionais",
       "program": "c:/Users/katie/OneDrive/Área de Trabalho/TrabalhoSistemasOperacionais/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
@@ -22,3 +22,4 @@
     }
   ]
 }
+C:\Users\katie\OneDrive\Área de Trabalho\TrabalhoSistemasOperacionais

@@ -37,7 +37,7 @@ string determine_winner(const string &p1, const string &p2) {
   } else if ((p1 == "Pedra" && p2 == "Tesoura") ||
              (p1 == "Tesoura" && p2 == "Papel") ||
              (p1 == "Papel" && p2 == "Pedra")) {
-    return BOLD GREEN "##########################################\n"
+    return DARK_BLUE "##########################################\n"
                       "        Jogador 1 venceu! :)        \n"
                       "##########################################" RESET;
   } else {

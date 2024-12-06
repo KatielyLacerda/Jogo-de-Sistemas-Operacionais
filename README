@@ -1,11 +1,11 @@
 #############################################
-MANUAL DO JOGO PEDRA PAPEL TESOURA! 
+MANUAL DO JOGO PEDRA PAPEL TESOURA!
 #############################################
 
-Requisitos:
+Requisitos nio Linux:
 
-Sistema operacional: Linux, um terminal que suporte ANSI escape codes
-Compilador C++: GCC (recomendado)
+Um terminal que suporte ANSI escape codes
+Compilador C++: GCC
 Bibliotecas: iostream, semaphore.h, thread, string
 
 #############################################
@@ -24,7 +24,7 @@ O jogo termina se qualquer jogador digitar "Sair".
 Caso a entrada seja inválida, o jogador será solicitado a escolher novamente.
 
 #####################################################
-Estrutura do Jogo:
+Estrutura do Jogo em LINUX:
 
 Semáforos:
 São usados para controlar a sincronização entre as threads dos jogadores, garantindo que as jogadas sejam feitas na ordem correta. Os semáforos usados são:
@@ -63,25 +63,41 @@ O fluxo do jogo retorna automaticamente ao início, garantindo a continuidade at
 As escolhas dos jogadores são sincronizadas com os semáforos, garantindo que ambas as jogadas ocorram em ordem e sem conflitos.
 
 ###################################################################################
-COMO COMPILAR E RODAR? 
+Requisitos no windows:
+Um terminal que suporte ANSI escape codes
+Compilador C++: GCC, GBD+10
+Bibliotecas: iostream, semaphore.h, thread, string
+Certifique-se que seu gcc suporta threads... guia de instalação do MinGW-w64: https://code.visualstudio.com/docs/cpp/config-mingw
 
-Certifique-se de que o GCC está instalado no seu sistema.
+Funcionamento:
 
-Clone o repositório do jogo com: git clone https://github.com/KatielyLacerda/Jogo-de-Sistemas-Operacionais.git  
+Estrutura do Jogo em WINDOWS:
+
+ESTRUTURA DO JOGO EM WINDOWS:
+
+Funções principais:
+
+Controle de Rodadas:
+
+###################################################################################
+
+COMO COMPILAR E RODAR em LINUX?
+
+Certifique-se de que o GCC está instalado no seu sistema e numa versão atualizada.
+
+Clone o repositório do jogo com: git clone https://github.com/KatielyLacerda/Jogo-de-Sistemas-Operacionais.git
 
 Entre no diretório do jogo: cd jogo-de-Sistemas-Operacionais
 
-Compile o código: g++ -std=c++11 main.cpp -o jogo -pthread 
+Compile o código: g++ -std=c++11 main_linux.cpp -o jogo -pthread
 
 Execute o jogo: ./jogo
 
 Recomendado rodar no terminal do vc code ou do git bash. Não recomendo usar o cdm pro linux. 
 
-JOGAR NO WINDOWS:
+COMO COMPLILAR E RODAR NO WINDOWS:
 
-Certifique-se que seu gcc suporta threads... guia de instalação do MinGW-w64: https://code.visualstudio.com/docs/cpp/config-mingw
-
-compile o código g++ -std=c++11 main_windows.cpp -o jogo -pthread 
+compile o código g++ -std=c++11 main_windows.cpp -o jogo -pthread
 
 Execute o jogo: ./jogo
 
@@ -98,4 +114,4 @@ Os Semáforos foram usados para sincronizar as jogadas, evitando que os jogadore
 
 Threads permitem que as jogadas dos dois jogadores ocorram em paralelo, mas de forma sincronizada, respeitando a ordem correta do jogo.
 
-OBSERVAÇÃO IMPORTANTE: Se você não tivero gcc intalado na sua máquina pode baixar o repositório normalmente, criar um arquivo .cpp no Replit 'https://replit.com/' (Compilador online, que é só entrar com sua conta do google), e colar o código do main.cpp do respsirório no arquivo .cpp criado nele. Feito isso é só clicar em run que ele compila e executa automático. 
+OBSERVAÇÃO IMPORTANTE: Se você não tivero gcc intalado na sua máquina pode baixar o repositório normalmente, criar um arquivo .cpp no Replit 'https://replit.com/' (Compilador online, que é só entrar com sua conta do google), e colar o código do main.cpp do respsirório no arquivo .cpp criado nele. Feito isso é só clicar em run que ele compila e executa automático.
