@@ -3,7 +3,8 @@
 #include <semaphore.h>
 #include <string>
 #include <thread>
-volatile bool game_over = false;
+volatile bool game_over = false; //Definimos uma variável global que vai indicar se o jogo acabou, o volatile
+//garante que a mudança num there afete a outra.
 #define RESET "\033[0m"
 #define BOLD "\033[1m"         // Preto (ANSI)
 #define GREEN "\033[32m"       // Verde (ANSI)
@@ -13,7 +14,7 @@ volatile bool game_over = false;
 
 using namespace std;
 
-// Semáforos que seraõ usados na sincronização
+// Semáforos que serão usados na sincronização
 sem_t player1_ready;
 sem_t player2_ready;
 sem_t choices_done; // semafaro que ambos os jogadores escolheram
@@ -27,7 +28,6 @@ bool is_valid_choice(const string &choice) {
   return (choice == "Pedra" || choice == "Papel" || choice == "Tesoura");
 }
 
-// Determina o vencedor com base nas regras dojogo
 // Determina o vencedor com base nas regras do jogo
 string determine_winner(const string &p1, const string &p2) {
   if (p1 == p2) {
@@ -53,7 +53,7 @@ void clear_screen() { (void)system("clear"); }
 // Vez do jogador 1 jogar
 void player1() {
   while (true) {
-    sem_wait(&player1_ready); // Espera sua vez
+    sem_wait(&player1_ready); // Espera sua talvez
     if (game_over)
       break; // Sai se o jogo acabou
 

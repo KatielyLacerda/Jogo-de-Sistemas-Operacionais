@@ -75,6 +75,8 @@ Compile o código: g++ -std=c++11 main.cpp -o jogo -pthread
 
 Execute o jogo: ./jogo
 
+Recomendado rodar no terminal do vc code ou do git bash. Não recomendo usar o cdm pro linux. 
+
 JOGAR NO WINDOWS:
 
 Certifique-se que seu gcc suporta threads... guia de instalação do MinGW-w64: https://code.visualstudio.com/docs/cpp/config-mingw
@@ -86,6 +88,8 @@ Execute o jogo: ./jogo
 ###################################
 AGORA É SÓ JOGAR!
 ###################################
+
+O windows é fresco então se for rodar, testa no cdm, pois no terminal do vs code pode dar erros!.
 
 ###################################################################################
 Resumo:
